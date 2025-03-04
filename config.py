@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()  # Load environment variables from .env file (if used)
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "your_actual_api_key_here")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyBKsIf_wDcZ0_PEgclEtL6VIqGZT1Km6xM")
 
 def get_genai_model():
     import google.generativeai as genai

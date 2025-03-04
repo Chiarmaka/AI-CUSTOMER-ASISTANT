@@ -125,3 +125,17 @@ class CustomerSupportBot:
 
         # If no predefined response, use AI model
         return self.call_llm(user_input)
+    def chat(self):
+        """Interactive chat loop for testing the bot"""
+        print("\nWelcome to AI Customer Support!")
+        print("Type 'exit' anytime to end the chat.")
+        
+        while True:
+            user_input = input("\nYou: ")
+            if user_input.lower() == "exit":
+                print("🔹 Thank you for contacting support. Have a great day!")
+                break
+            
+            response = self.get_response(user_input)
+            print(f"Support AI: {response}")
+    print("\n")

@@ -1,10 +1,12 @@
 import google.generativeai as genai
 from config import get_genai_model  # Import API configuration
+import re
 
 class CustomerSupportBot:
     def __init__(self):
-        self.model = get_genai_model()  # Use the model from config.py
-
+        from config import get_genai_model  # Import API key handling
+        self.model = get_genai_model() 
+        
         self.knowledge_base = {
     "greeting": [
         "Hello! I'm your AI customer support assistant. How can I help you today?",
@@ -116,15 +118,22 @@ class CustomerSupportBot:
         except Exception as e:
             return f"❌ Error: {str(e)}"
 
-    def get_response(self, user_input):
-        """Get response from the knowledge base or call AI"""
-        user_input = user_input.lower()
-        for key in self.knowledge_base:
-            if key in user_input:
-                return self.knowledge_base[key][0]  # Return a predefined response
 
-        # If no predefined response, use AI model
+    def get_response(self, user_input):
+        """Get response from the knowledge base or call the AI model if no match is found."""
+        user_input = user_input.lower()
+
+        # 🔍 Check if any word in the knowledge base key exists in user input
+        for key in self.knowledge_base:
+            key_words = key.split()  # Split key into individual words
+            if any(re.search(rf"\b{word}\b", user_input) for word in key_words):  # Match any word
+                print(f"✅ Matched: {key}")  # Debugging
+                return self.knowledge_base[key][0]
+
+        print("❌ No match found - Using AI Model")  # Debugging
         return self.call_llm(user_input)
+
+
     def chat(self):
         """Interactive chat loop for testing the bot"""
         print("\nWelcome to AI Customer Support!")
